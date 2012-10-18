@@ -1,0 +1,12 @@
+*code_db.txt*     数据库操作    *code_db*
+
+|db_adapter|    数据库操作接口
+|db_select|     数据库查询语句拼装对象
+|db_expr|       SQL表达式
+|db_profile|    SQL语句分析
+|db_statement|  结果集
+|db_example|    示例
+
+见示例：|db_example|
+------------------------------------------------------------------------------
+ vim:tw=78:fo=tcq2:isk=!-~,^*,^\|,^\":ts=8:ft=help:norl:

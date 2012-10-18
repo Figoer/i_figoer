@@ -1,0 +1,77 @@
+*code_condition.txt*     条件对象   *code_condition*
+
+/usr/local/eyou/mail/app/lib/php/member/operator/condition/*
+
+查询、修改、删除条件，都通过condition对象传递。
+
+condtion主要作用：
+规定允许的查询参数
+验证查询参数，在lib使用condition时，会先调用这个方法进行验证
+
+------------------------------------------------------------------------------
+condition 定义：
+/home/shenys/eyou/git/elephant/src/lib/condition/em_condition_adapter_abstract.class.php
+
+__allow_params 允许的参数数组 >
+    array(
+        'param_1' => true,
+        'param_2' => true,
+    );
+<
+    操作参数： >
+    $condition->set_param_1($value); // 设置param_1的值
+    $condition->get_param_1(); // 获取param_1的值
+    $condition->params(); // 获取所有参数设置
+
+
+check_params() 验证参数
+
+------------------------------------------------------------------------------
+condition 使用约定：
+condition只定义了以上两项东西，没有定义各个参数的使用规则，
+于是可能出现LIB内部规则与外部调用认为的规则不一致的情况，
+因此在编码过程中，对于数据库操作这类condition，形成以下约定：
+
+anyway 参数：这个参数告诉lib，当明确指定操作某个东西，这个东西不存在，是忽略，
+             还是失败，例如，删除邮件ID为1111的邮件，但是删除的时候不存在，
+             当anyway为false时，则当异常处理，为true时，则忽略这个错误，处理成功。
+             批量操作时，通常需要设置为true，例如同时删除多封邮件。
+
+默认where条件：
+=   相等查询，那些表示有没有某项功能，是否开启等的字段，默认使用相等查询，
+    例如：has_pop, is_display，查询时：has_pop=1, is_display=0
+in  IN查询，那些可以多选的，比如状态、类型、ID等，默认使用IN查询，
+    例如：deliver_type，mail_id，查询时：deliver_type IN (1,2), mail_id IN (3,4)
+
+range 范围查询，那些表示时间、大小等范围的，默认使用范围查询，
+      范围查询设置参数时，一般需要设置最大值、最小值，默认使用<=、>=查询，
+      例如：init_time，quota，查询时：quota>=100 and quota<=200
+like  模糊查询，所有字符串字段都使用LIKE查询，包括那些唯一值字段，
+      如：domain_name, acct_name等，查询时 domain_name like '%aaa%'
+      
+where 设置查询where条件SQL语句，lib直接使用该where条件拼装SQL语句。
+
+==============================================
+get 方法condition约定参数：查询数据
+
+where       查询where语句 
+columns     返回字段
+order       排序
+limit       分页 array('offset' => 0, 'count' => 10);
+limit_page  分页 array('page' => 1, 'rows_count' => 10);
+is_fetch    返回结果集对象，而不是数组
+is_count    返回总数，而不是数据
+group       group by
+
+mod 方法condition约定：更新数据
+property    更新数据的property对象
+
+==============================================
+多表查询：
+多表查询一般提供一个table_alias()方法获取表别名，便于外部拼装SQL语句
+
+------------------------------------------------------------------------------
+使用示例：|example_lib_condition|
+
+------------------------------------------------------------------------------
+ vim:tw=78:fo=tcq2:isk=!-~,^*,^\|,^\":ts=8:ft=help:norl:

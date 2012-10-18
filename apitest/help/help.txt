@@ -1,0 +1,20 @@
+*help.txt* eYouMail v5简要开发说明
+
+|process.txt|       主要进程简介
+|dir.txt|           目录结构简介
+
+|innerapi.txt|      innerapi进程介绍
+|phpd.txt|          phpd进程介绍
+
+|debug.txt|         调试配置
+|code.txt|          代码开发
+|api.txt|           API介绍
+|plugin.txt|        插件与事件机制
+
+|tempfile.txt|      临时文件
+|theme.txt|         风格模板
+
+|utils.txt|         常用命令行工具介绍
+
+------------------------------------------------------------------------------
+ vim:tw=78:fo=tcq2:isk=!-~,^*,^\|,^\":ts=8:ft=help:norl:
