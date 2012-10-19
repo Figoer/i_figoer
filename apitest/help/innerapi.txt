@@ -1,0 +1,24 @@
+*innerapi.txt*  innerapi进程介绍    *em_innerapi* *em_innerapi.ini*
+
+innerapi进程是php实现的常驻进程，提供内部api接口。
+
+配置文件：/usr/local/eyou/mail/etc/em_innerapi.ini >
+    [base]          ; 模块（进程）名称
+    enable = 1      ; 是否启用模块
+    proc_num = 1    ; 进程数
+    debug = 0       ; 启用调试
+
+进程介绍：
+详见：wiki InnerAPI 子进程
+
+
+进程扩展：
+1. 实现一个innerapi
+    /usr/local/eyou/mail/app/lib/php/innerapi/
+2. “实现”一个进程，参见
+    /usr/local/eyou/mail/implements/process/emimp_process_interface.class.php 
+    /usr/local/eyou/mail/implements/process/emimp_process_abstract.class.php
+3. 参考em_innerapi.ini，增加一个进程模块配置
+
+------------------------------------------------------------------------------
+ vim:tw=78:ts=8:ft=help:norl:

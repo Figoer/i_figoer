@@ -1,0 +1,164 @@
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker: */
+
+注: 
+1. 所有以 // 开头的都是对此文件的注释，不属于数据的一部分
+
+2. csv 格式的文件，第一行必须是标题，标题之前不能有空行,
+
+3. csv 格式的文件，处理一些批量的添加，批量的修改，比较方便快捷
+
+3. 任何方法都可以通过 simple，cvs 格式的数据来实现，但是下面列出的的方法使用 csv 格式文件更方便一些
+
+// {{{ user_black_list::add_black_list
+// 批量添加多个 user_black_list
+:method, user_key.acct_name, domain_key.domain_name, user_black_list.email
+
+user_black_list::add_black_list, test, test.com, aaa@eyou.net
+user_black_list::add_black_list, test, test.com, bbb@eyou.net
+user_black_list::add_black_list, test, test.com, ccc@eyou.net
+...
+
+// }}}
+
+// {{{ user_white_list::add_white_list
+// 批量添加多个 user_white_list
+:method, user_key.acct_name, domain_key.domain_name, user_white_list.email
+
+user_black_list::add_black_list, test, test.com, aaa@eyou.net
+user_black_list::add_black_list, test, test.com, bbb@eyou.net
+user_black_list::add_black_list, test, test.com, ccc@eyou.net
+...
+
+// }}}
+
+// {{{ user_auto_reply_black_list::add_auto_reply_black_list
+// 批量添加多个 user_auto_reply_black_list
+:method, user_key.acct_name, domain_key.domain_name, user_auto_reply_black_list.email
+
+user_black_list::add_black_list, test, test.com, aaa@eyou.net
+user_black_list::add_black_list, test, test.com, bbb@eyou.net
+user_black_list::add_black_list, test, test.com, ccc@eyou.net
+...
+
+// }}}
+
+// {{{ user_auto_reply_white_list::add_auto_reply_white_list
+// 批量添加多个 user_auto_reply_white_list
+:method, user_key.acct_name, domain_key.domain_name, user_auto_reply_white_list.email
+
+user_black_list::add_black_list, test, test.com, aaa@eyou.net
+user_black_list::add_black_list, test, test.com, bbb@eyou.net
+user_black_list::add_black_list, test, test.com, ccc@eyou.net
+...
+
+// }}}
+
+// {{{ user_filter::add_filter
+// 批量添加多个 user_filter
+:method, user_key.acct_name, domain_key.domain_name, user_filter.keywords, user_filter.scope,user_filter.folder_id
+
+user_filter::add_filter, test, test.com, key_a, 1, 1
+user_filter::add_filter, test, test.com, key_b, 1, 1
+user_filter::add_filter, test, test.com, key_c, 1, 1
+user_filter::add_filter, test, test.com, key_d, 1, 1
+user_filter::add_filter, test, test.com, key_e, 1, 1
+user_filter::add_filter, test, test.com, key_f, 1, 1
+user_filter::add_filter, test, test.com, key_g, 1, 1
+...
+
+// }}}
+
+// {{{ user_filter_forwarding::add_filter_forwarding
+// 批量添加多个 user_filter_forwarding
+:method, user_key.acct_name, domain_key.domain_name, user_filter_forwarding.email
+
+user_black_list::add_black_list, test, test.com, aaa@eyou.net
+user_black_list::add_black_list, test, test.com, bbb@eyou.net
+user_black_list::add_black_list, test, test.com, ccc@eyou.net
+...
+
+// }}}
+
+// {{{ user_signature::add_signature
+// 批量添加多个 user_signature
+:method, user_key.acct_name, domain_key.domain_name, user_signature.subject, user_signature.content, user_signature.is_default
+
+user_signature::add_signature, test, test.com, subject-1, content-1, 1
+user_signature::add_signature, test, test.com, subject-2, content-2, 1
+user_signature::add_signature, test, test.com, subject-3, content-3, 0
+user_signature::add_signature, test, test.com, subject-4, content-4, 1
+...
+
+// }}}
+
+// {{{ user_pop_acct::add_pop_acct
+// 批量添加多个 user_pop_acct
+:method, user_key.acct_name, domain_key.domain_name, user_pop_acct.pop_server, user_pop_acct.pop_port,user_pop_acct.pop_username, user_pop_acct.pop_password, user_pop_acct.folder_id, ...
+
+user_pop_acct::add_pop_acct, test, test.com, 127.0.0.1, 23, test-1, aaaaa, 1, ...
+user_pop_acct::add_pop_acct, test, test.com, 127.0.0.2, 2l, test-2, aaaaa, 1, ...
+user_pop_acct::add_pop_acct, test, test.com, 127.0.0.3, 23, test-3, aaaaa, 1, ...
+user_pop_acct::add_pop_acct, test, test.com, 127.0.0.4, 23, test-3, aaaaa, 1, ...
+...
+
+// }}}
+
+// {{{ user_acl::add_acl
+// 批量添加多个 user_acl
+:method, user_key.acct_name, domain_key.domain_name, user_acl.acl_read, user_acl.acl_mod, user_acl.acl_add, user_acl.acl_del
+
+user_acl::add_acl, test, test.com, 1, 0, 1, 0
+user_acl::add_acl, test, test.com, 0, 1, 0, 1
+user_acl::add_acl, test, test.com, 1, 0, 1, 0
+user_acl::add_acl, test, test.com, 0, 1, 0, 1
+user_acl::add_acl, test, test.com, 1, 0, 1, 0
+...
+
+// }}}
+
+// {{{ user_folder_custom::add_folder
+// 批量添加多个 user_folder_custom
+:method, user_key.acct_name, domain_key.domain_name, user_folder_custom.folder_name
+
+user_folder_custom::add_folder, test, test.com, folder_1
+user_folder_custom::add_folder, test, test.com, folder_2
+user_folder_custom::add_folder, test, test.com, folder_3
+...
+
+// }}}
+
+// {{{ user_mail_index::add_mail
+// 批量添加多个 user_mail_index
+:method, user_key.acct_name, domain_key.domain_name, user_mail_index.folder_id, user_mail_index.from_digest, user_mail_index.to_digest, ...
+
+user_mail_index::add_mail, test, test.com, 1, from_1@eyou.net, to_1@eyou.net, ...
+user_mail_index::add_mail, test, test.com, 1, from_2@eyou.net, to_2@eyou.net, ...
+user_mail_index::add_mail, test, test.com, 1, from_3@eyou.net, to_3@eyou.net, ...
+user_mail_index::add_mail, test, test.com, 1, from_4@eyou.net, to_4@eyou.net, ...
+...
+
+// }}}
+
+// {{{ user_notice_index::add_notice
+// 批量添加多个 user_notice_index
+:method, user_key.acct_name, domain_key.domain_name, user_notice_index.file_id, user_notice_index.size, user_notice_index.send_type, ...
+
+user_notice_index::add_notice, test, test.com, file_id_1, 1024, 1, ...
+user_notice_index::add_notice, test, test.com, file_id_2, 1024, 1, ...
+user_notice_index::add_notice, test, test.com, file_id_3, 1024, 1, ...
+user_notice_index::add_notice, test, test.com, file_id_4, 1024, 1, ...
+...
+
+// }}}
+
+// {{{ user_contacts::add_contacts
+// 批量添加多个 user_contacts
+:method, user_key.acct_name, domain_key.domain_name,user_contacts_key.contacts_name, user_contacts_extend.element_key, user_contacts_extend.element_value, user_contacts_assoc.contacts_group_id
+
+user_contacts::add_contacts, test, test.com, name_1, key_1, value_1, gid_1
+user_contacts::add_contacts, test, test.com, name_2, key_2, value_2, gid_1
+user_contacts::add_contacts, test, test.com, name_3, key_3, value_3, gid_1
+user_contacts::add_contacts, test, test.com, name_5, key_4, value_4, gid_1
+...
+
+// }}}

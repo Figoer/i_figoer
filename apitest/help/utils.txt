@@ -1,0 +1,55 @@
+*utils.txt*     常用工具介绍   *utils*
+
+*ut_sbin*
+/usr/local/eyou/mail/app/sbin/eyou_mail
+    邮件系统启动、停止工具
+
+/usr/local/eyou/mail/app/sbin/em_version
+    查看邮件版本
+
+/usr/local/eyou/mail/app/sbin/em_init_member_key_cache
+    初始化域、用户、组的关键信息缓存
+    
+/usr/local/eyou/mail/app/sbin/em_clear_member_cache
+    清理所有域、用户、组指定缓存，用于批量修改数据表时更新memcache
+
+/usr/local/eyou/mail/app/sbin/em_member_restore
+    修复系统、域、用户、组信息，如统计信息、缓存等。
+
+/usr/local/eyou/mail/app/sbin/em_mconfig
+    成员配置修改工具
+
+/usr/local/eyou/mail/app/sbin/em_control
+    控制台
+
+/usr/local/eyou/mail/app/sbin/em_ap_user
+    添加API帐户
+
+
+*ut_bin*
+/usr/local/eyou/mail/app/bin/em_sendmail
+    发送邮件命令行，需要注意信件文件的权限
+
+/usr/local/eyou/mail/app/bin/em_innerapi
+    innerapi工具,
+    -k watch 查看innerapi进程，记录于/usr/local/eyou/mail/log/innerapi.log
+    -k reconfig 重载em_innerapi.ini配置
+
+/usr/local/eyou/mail/app/bin/em_phpd
+    phpd工具,
+    -k watch 查看phpd进程，记录于/usr/local/eyou/mail/log/phpd.log
+    -k reconfig 重载em_phpd.ini配置
+
+
+*ut_cron*   定时脚本，一般不用手动执行
+/usr/local/eyou/mail/app/cron/em_archive_log
+    归档日志
+
+/usr/local/eyou/mail/app/cron/em_clear_tempfile
+    清理临时文件
+
+/usr/local/eyou/mail/app/cron/em_member_iteration
+    成员迭代，清理已删除用户、清理已删除邮件、发送过期提醒信、密码修改提醒信等
+
+------------------------------------------------------------------------------
+ vim:tw=78:ts=8:ft=help:norl:

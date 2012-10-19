@@ -1,0 +1,1302 @@
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker: */
+
+注: 
+1. 所有以 // 开头的都是对此文件的注释，不属于数据的一部分
+
+2. get_xxx() 系列方法使用说明, 可以通过设置 columns 属性获取指定的字段, 默认获取全部字段
+
+   columns 属性是可有可无的，如果使用 columns，则获取 columns 指定的字段,
+           各字段用户逗号分隔，中间不能有空格
+
+           eg: 
+           columns = "acct_id,acct_name,domain_id,domain_name",
+           则返回的结果集中只包含这四个字段
+
+
+// {{{ domain_basic::mod_basic
+
+:method
+domain_basic::mod_basic
+
+:data
+domain_basic = {
+    quota = 2000,
+    acct_num = 2000,
+        ...
+}
+:cond
+domain_name = "test.com",
+
+// }}}
+// {{{ domain_basic::get_basic
+
+:method
+domain_basic::get_basic
+
+:cond
+domdin_name = "test.com",
+columns = "columns_1,columns_2",
+
+// }}}
+
+// {{{ domain_config::add_config
+
+:method
+domain_config:add_config
+
+:data
+domain_key = {
+    domain_name = "test.com",
+}
+
+// 添加多个 domain_config
+domain_config = [
+    system_filter = [
+	    scope = 0,
+	    config_value = {
+	        is_open = 1,   
+	    }
+    ]
+    logo_admin = [
+	    scope = 0,
+	    config_value = {
+	        file = "",
+	        url = "",
+	        title = "",
+	        size_height = 40,
+	        size_width = 100,
+	    }
+    ]
+    allow_user_register = {
+	    scope = 0,
+	    config_value = 0,
+    }
+    default_quota = {
+	    scope = 1,
+	    config_value = 0,
+    }
+    force_acct_num = {
+	    scope = 1,
+	    config_value = 0,
+    }
+]
+
+// 添加一个 domain_config
+domain_config = [
+    force_acct_num = {
+        scope = 1,
+        config_value = 0,
+    }
+]
+
+// }}}
+// {{{ domain_config::mod_config
+
+:method
+domain_config::mod_config
+
+:data
+domain_key = {
+    domain_name = "test.com",    
+}
+domain_config = [
+    system_filter = {
+	    is_open = 0,   
+    }
+    logo_admin = {
+	    file = "",
+	    url = "",
+	    title = "",
+	    size_height = 45,
+	    size_width = 150,
+    }
+    allow_user_register = 1,
+]
+
+:cond
+domain_name = "test.com",
+scope = 0,
+
+// }}}
+// {{{ domain_config::del_config
+
+:method
+domain_config::del_config
+
+:cond
+domain_name = "test.com",
+scope = 0,
+config_name = "system_filter,logo_admin,allow_user_register", 
+// 注意：用逗号分隔,中间不能有空字符,可以设置一个或多个配置
+
+// }}}
+// {{{ domain_config::get_config
+
+:method
+domain_basic::get_config
+
+:cond
+domdin_name = "test.com",
+config_name = "config_1,config_2",
+// 可以获取多个 config，config_name 用逗号分隔，中间不能有空格
+scope = 1,
+
+// }}}
+
+// {{{ user_basic::mod_basic
+        
+:method
+user_basic::mod_basic
+
+:data
+user_basic = {
+    expiration_time = 0,  
+    password = "bbbbb",
+    quota = 1290,
+    ...
+}
+
+:cond
+acct_name = "test",
+doman_name = "test.com",
+
+// }}}
+// {{{ user_basic::get_basic
+
+:method
+user_basic::get_basic
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,columns_3",
+
+// }}}
+
+// {{{ user_custom::mod_custom 
+
+:method
+user_custom::mod_custom
+
+:data
+user_custom = {
+    reply_email = "email",
+    display_name = "abc",
+    lang = "zh_CN",
+    ...
+}
+
+:cond
+acct_name = "test",
+doman_name = "test.com",
+
+// }}}
+// {{{ user_custom::get_custom
+
+:method
+user_custom::get_custom
+
+:cond
+acct_name = "test",
+domdin_name = "test.com",
+columns = "columns_1,columns_2,columns_3",
+
+// }}}
+
+// {{{ user_personal::mod_personal
+
+:method
+user_personal::mod_personal
+
+:data 
+user_personal = {
+    real_name = "name",
+    gender = 2,
+    ...
+}
+
+:cond
+acct_name = "test",
+doman_name = "test.com",
+
+// }}}
+// {{{ user_personal::get_personal
+
+:method
+user_personal::get_personal
+
+:cond
+acct_name = "test",
+doman_name = "test.com",
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_config::add_config
+
+:method
+user_config:add_config
+
+:data
+domain_key = {
+    domain_name = "test.com",  
+}
+user_kay = {
+    acct_name = "test",   
+}
+domain_config = [
+    first_login_change_password = [
+	    scope = 0,
+	    config_value = {
+	        is_alert = 1,   
+	        is_force = 0,   
+	    }
+    ]
+    alert_expire = [
+	    scope = 0,
+	    config_value = {
+	        is_alert = 1,
+            in_advance = 30,
+	    }
+    ]
+    allow_alias_login = {
+	    scope = 0,
+	    config_value = 0,
+    }
+    default_quota = {
+	    scope = 1,
+	    config_value = 0,
+    }
+    force_acct_num = {
+	    scope = 1,
+	    config_value = 0,
+    }
+    default_expiration_time = {
+        scope = 2,
+        config_value = 0,
+    } 
+    xxxx = {
+        ...    
+    }
+]
+
+// }}}
+// {{{ user_config::mod_config
+
+:method
+user_config::mod_config
+
+:data
+user_config = [
+    allow_alias_login = 1;
+    default_quota = 100,
+    alert_expire= {
+        is_alert = 0,
+        in_advance = 23,
+    }
+
+    ...
+]
+
+:cond
+domain_name= "test.com",
+acct_name = "test",
+scope = 0,
+
+// }}}
+// {{{ user_config::del_config
+
+:method
+user_config::del_config
+
+:cond
+domain_name= "test.com",
+acct_name = "test",
+scope = 0,
+config_name = "config_name1,config_name2,config_name3",
+// 可以删除多个，config_name 用逗号分隔(逗号前后不能使用空格)，也可以删除一个
+
+// }}}
+// {{{ user_config::get_config
+
+:method
+user_config::get_config
+
+:cond
+domain_name= "test.com",
+acct_name = "test",
+scope = 0,
+config_name = "config_name1,config_name2,config_name3",
+// 可以获取一个或多个，config_name 用逗号分隔(逗号前后不能使用空格)
+
+// }}}
+
+// {{{ user_black_list::add_black_list
+
+:method
+user_black_list::add_black_list
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",   
+}
+// 添加多个黑名单, 索引要自己创建
+user_black_list=[
+    0 = {
+        email = "aaa@eyou.net",    
+    }
+    1 = {
+        email = "bbb@eyou.net",   
+    }
+    2 = {
+        email = "ccc@eyou.net",    
+    }
+    3 = {
+        ...    
+    }
+]
+
+// 添加一个黑名单
+user_black_list = {
+    email = "aaa@eyou.net",    
+}
+
+// }}}
+// {{{ user_black_list::mod_black_list
+
+:method
+user_black_list::mod_black_list
+
+:data
+
+user_black_list = {
+    email = "aaa@eyou.net",    
+}
+
+:cond
+acct_name = "test",
+domain_key = "test.com",   
+black_list_id = 3,
+
+// }}}
+// {{{ user_black_list::del_black_list
+
+:method
+user_black_list::del_black_list
+
+:cond
+acct_name = "test",
+domain_key = "test.com",   
+black_list_id = 3,
+
+// 删除多个 black_list, black_list_id 用逗号隔开(中间不能有空格)
+// black_list_id = "2,3,4,5,6",
+
+// }}}
+// {{{ user_black_list::get_black_list
+
+:method
+user_black_list::get_black_list
+
+:cond
+acct_name = "test",
+domain_key = "test.com",   
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_white_list::add_white_list
+
+:method
+user_white_list::add_white_list
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",   
+}
+// 添加多个白名单
+user_white_list=[
+    0 = {
+        email = "aaa@eyou.net",    
+    }
+    1 = {
+        email = "bbb@eyou.net",   
+    }
+    2= {
+        email = "ccc@eyou.net",    
+    }
+    3= {
+        ...    
+    }
+]
+
+// 添加一个白名单
+user_white_list = {
+    email = "aaa@eyou.net",    
+}
+
+// }}}
+// {{{ user_white_list::mod_white_list
+
+:method
+
+:data
+
+user_white_list = {
+    email = "aaa@eyou.net",    
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+white_list_id = 3,
+
+// }}}
+// {{{ user_white_list::del_white_list
+
+:method
+user_white_list::del_white_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+white_list_id = 3,
+
+// 删除多个 white_list, white_list_id 用逗号隔开(中间不能有空格)
+// white_list_id = "2,3,4,5,6",
+
+// }}}
+// {{{ user_white_list::get_white_list
+
+:method
+user_white_list::get_white_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+columns = "columns_1,columns_2,columns_3,...",
+
+// }}}
+
+// {{{ user_auto_reply_black_list::add_auto_reply_black_list
+
+:method
+user_auto_reply_black_list::add_auto_reply_black_list
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",   
+}
+// 添加多个自动转寄黑名单
+user_auto_reply_black_list=[
+    0 = {
+        email = "aaa@eyou.net",    
+    }
+    1 = {
+        email = "bbb@eyou.net",   
+    }
+    2 = {
+        email = "ccc@eyou.net",    
+    }
+    3 = {
+        ...    
+    }
+]
+
+// 添加一个自动转寄黑名单
+user_auto_reply_black_list = {
+    email = "aaa@eyou.net",    
+}
+
+// }}}
+// {{{ user_auto_reply_black_list::mod_auto_reply_black_list
+
+:method
+user_auto_reply_black_list::mod_auto_reply_black_list
+
+:data
+
+user_auto_reply_black_list = {
+    email = "aaa@eyou.net",    
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+auto_reply_black_list_id = 3,
+
+// }}}
+// {{{ user_auto_reply_black_list::del_auto_reply_black_list
+
+:method
+user_auto_reply_black_list::del_auto_reply_black_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+auto_reply_black_list_id = 3,
+
+// 删除多个 auto_reply_black_list, auto_reply_black_list_id 用逗号隔开(中间不能有空格)
+// auto_reply_black_list_id = "2,3,4,5,6",
+
+// }}}
+// {{{ user_auto_reply_black_list::get_auto_reply_black_list
+
+:method
+user_auto_reply_black_list::get_auto_reply_black_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_auto_reply_white_list::add_auto_reply_white_list
+
+:method
+user_auto_reply_white_list::add_auto_reply_white_list
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",   
+}
+// 添加多个自动转寄白名单
+user_auto_reply_white_list=[
+    0 = {
+        email = "aaa@eyou.net",    
+    }
+    1 = {
+        email = "bbb@eyou.net",   
+    }
+    2 = {
+        email = "ccc@eyou.net",    
+    }
+    3 = {
+        ...    
+    }
+]
+
+// 添加一个自动转寄白名单
+user_auto_reply_white_list = {
+    email = "aaa@eyou.net",    
+}
+
+// }}}
+// {{{ user_auto_reply_white_list::mod_auto_reply_white_list
+
+:method
+user_auto_reply_white_list::mod_auto_reply_white_list
+
+:data
+
+user_auto_reply_white_list = {
+    email = "aaa@eyou.net",    
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",   
+auto_replay_white_list_id = 3,
+
+// }}}
+// {{{ user_auto_reply_white_list::del_auto_reply_white_list
+
+:method
+user_auto_reply_white_list::del_auto_reply_white_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+auto_reply_white_list_id = 3,
+
+// 删除多个 auto_reply_white_list, auto_reply_white_list_id 用逗号隔开(中间不能有空格)
+// auto_reply_white_list_id = "2,3,4,5,6",
+
+// }}}
+// {{{ user_auto_reply_white_list::get_auto_reply_white_list
+
+:method
+user_auto_reply_white_list::get_auto_reply_white_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_filter::add_filter
+
+:method
+user_filter::add_filter
+
+:data
+user_key = {
+    acct_name = "test",   
+}
+domain_key = {
+    domain_name = "test.com",    
+}
+
+// 添加多个过滤器, 索引数组需要指定索引
+user_filter = [
+    0 = {
+            keywords = "key_a",
+            scope = 2,
+        }
+    1 = {
+            keywords = "key_b",
+            scope = 2,
+        }
+]
+
+// 添加一个过滤器
+user_filter = {
+    keywords = "key_c",
+    scope = 1,
+    action = 4,
+    folder_id = 0,
+}
+
+// }}}
+// {{{ user_filter::mod_filter
+
+:method
+user_filter::mod_filter
+
+:data
+user_filter = {
+    keywords = "key_b",
+    scope = 1,
+    action = 6,
+    folder_id = 1,
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+filter_id = "1,2,3,4", 
+// 修改多个过滤器，filter_id 用逗号分隔
+
+// }}}
+// {{{ user_filter::del_filter
+    
+:method
+user_filter::del_filter
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+filter_id = "1,3,5,6"
+// 多个 filter_id 用逗号分开
+
+// }}}
+// {{{ user_filter::get_filter
+    
+:method
+user_filter::get_filter
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_filter_forwarding::add_filter_forwarding
+
+:method
+user_filter_forwarding::add_filter_forwarding
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",   
+}
+
+user_filter_forwarding= [
+    0 = {
+        email = "aaa@eyou.net",    
+    }
+    1 = {
+        email = "bbb@eyou.net",   
+    }
+    2 = {
+        email = "ccc@eyou.net",    
+    }
+    3 = {
+        ...    
+    }
+]
+
+// }}}
+// {{{ user_filter_forwarding::mod_filter_forwarding
+
+:method
+user_filter_forwarding::mod_filter_forwarding
+
+:data
+user_filter_forwarding = {
+    email = "aaa@eyou.net",    
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+filter_id = 1,
+filter_forwarding_id = 1,
+
+// }}}
+// {{{ user_filter_forwarding::del_filter_forwarding
+
+:method
+user_filter_forwarding::del_filter_forwarding
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+filter_forwarding_id = "1,2,3,4"
+filter_id = 1,
+
+// }}}
+// {{{ user_filter_forwarding::get_filter_forwarding
+
+:method
+user_filter_forwarding::get_filter_forwarding
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+filter_id = id,
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_signature::add_signature
+
+:method:user_signature::add_signature
+
+:data
+user_key = {
+    acct_name = "test",    
+}
+domain_key = {
+    domain_name = "test.com",    
+}
+// 添加单个签名档
+user_signature = {
+    subject = "subject-1",
+    content = "content-1",
+    is_default = 1,
+}
+// 添加 多个签名档
+user_signature = [
+    0 = {
+        subject = "subject-2",
+        content = "content-2",
+        is_default = 0,
+    }
+    1 = {
+        subject = "subject-3",
+        content = "content-3",
+        is_default = 0,
+    }
+    2 = {
+        ...    
+    }
+]
+
+// }}}
+// {{{ user_signature::mod_signature
+
+:method
+user_signature::mod_signature
+
+:data
+user_signature = {
+    subject = "subject-4",
+    content = "content-4",
+} 
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+signature_id = "2,3,4",
+// 修改多个签名档，id 用逗号分隔
+
+// }}}
+// {{{ user_signature::del_signature
+
+:method
+user_signature::del_signature
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+signature_id = "2,3,4",
+// 删除多个签名档，id 用逗号分隔
+
+// }}}
+// {{{ user_signature::get_signature
+
+:method
+user_signature::get_signature
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_pop_acct::add_pop_acct
+
+:method
+user_pop_acct::add_pop_acct
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",   
+}
+// 添加单个 pop_acct
+user_pop_acct = {
+    pop_server = "127.0.0.1",
+    pop_port = 23,
+    pop_username = "test-1",
+    pop_password = "aaaaa",
+    ...
+    is_opened = 1,
+}
+
+// 添加多个 pop_acct
+user_pop_acct = [
+    0 = {
+        pop_server = "127.0.0.1",
+        pop_port = 23,
+        pop_username = "test-2",
+        pop_password = "bbbbb",
+        ...
+        is_opened = 1,
+    }
+    1 = {
+        pop_server = "127.0.0.1",
+        pop_port = 23,
+        pop_username = "test-3",
+        pop_password = "ccccc",
+        ...
+        is_opened = 1,
+    }
+]
+
+// }}}
+// {{{ user_pop_acct::mod_pop_acct
+
+:method
+user_pop_acct::mod_pop_acct
+
+:data
+user_pop_acct = {
+    pop_server = "127.0.0.1",
+    pop_port = 23,
+    pop_username = "test-1",
+    pop_password = "aaaaa",
+    ...
+    is_opened = 1,
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+pop_acct_id = "1,2,3",
+// 修改多个 pop_acct，用逗号分隔
+
+// }}}
+// {{{ user_pop_acct::del_pop_acct
+
+:method
+user_pop_acct::del_pop_acct
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+pop_acct_id = "1,2,3",
+
+// }}}
+// {{{ user_pop_acct::get_pop_acct
+
+:method
+user_pop_acct::get_pop_acct
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,columns_3,...",
+
+// }}}
+
+// {{{ user_acl::add_acl
+
+:method
+user_acl::add_acl
+
+:data
+user_key = {
+    acct_name = "test",    
+}
+domain_key = {
+    domain_name = "test.com",
+}
+// 添加单条记录
+user_acl = {
+    acl_read = 1, 
+    acl_mod = 1, 
+    acl_add = 1, 
+    acl_del = 1, 
+}
+
+// 添加多条记录
+user_acl = [
+0 = {
+    acl_read = 1, 
+    acl_mod = 1, 
+    acl_add = 1, 
+    acl_del = 1, 
+}
+1 = {
+    acl_read = 1, 
+    acl_mod = 0, 
+    acl_add = 1, 
+    acl_del = 0, 
+}
+2 = {
+    ...   
+}
+]
+
+// }}}
+// {{{ user_acl::mod_acl
+
+:method
+user_acl::mod_acl
+
+:data
+
+user_acl = {
+    acl_read = 1, 
+    acl_mod = 1, 
+    acl_add = 1, 
+    acl_del = 1, 
+}
+
+:cond
+domain_name = "test.com",
+acct_name = "test",
+// 修改多个 acl，用逗号分隔(中间不能有空格)
+acl_id = "1,2,3,5",
+
+// 修改单个
+acl_id = 1,
+
+// }}}
+// {{{ user_acl::del_acl
+
+:method
+user_acl::del_acl
+
+:cond
+domain_name = "test.com",
+acct_name = "test",
+// 删除多个 acl，用逗号分隔(中间不能有空格)
+acl_id = "1,2,3,5",
+
+// 删除单个
+acl_id = 1,
+
+// }}}
+// {{{ user_acl::get_acl
+
+:method
+user_acl::get_acl
+
+:cond
+domain_name = "test.com",
+acct_name = "test",
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_folder_custom::add_folder
+
+:method
+user_folder_custom::add_folder
+
+:data
+user_key = {
+    acct_name = "test",
+}
+domain_key = {
+    domain_name = "test.com",    
+}
+user_folder_custom = {
+    folder_name = "folder_name",   
+}
+
+// }}}
+// {{{ user_folder_custom::mod_folder
+
+:method
+user_folder_custom::mod_folder
+
+:data
+user_folder_custom = {
+    folder_name = "folder_name",    
+}
+
+:cond
+domain_name = "test.com",
+acct_name = "test",
+folder_id = 1,
+
+// }}}
+// {{{ user_folder_custom::del_folder
+
+:method
+user_folder_custom::del_folder
+
+:cond
+domain_name = "test.com",
+acct_name = "test",
+folder_id = 1,
+
+// }}}
+// {{{ user_folder_custom::get_folder
+
+:method
+user_folder_custom::get_folder
+
+:cond
+domain_name = "test.com",
+acct_name = "test",
+// 此方法不支持 columns
+
+// }}}
+
+// {{{ user_mail_index::add_mail
+
+:method
+user_mail_index::add_mail
+
+:data
+user_key = {
+    acct_name = "test",    
+}
+domain_key = {
+    domain_name = "test.com",    
+}
+user_mail_index = {
+    folder_id = 1,
+    from_digest = "from_digest",
+    to_digest = "to_digest",
+    ...
+}
+
+// }}}
+// {{{ user_mail_index::mod_mail
+
+:method
+user_mail_index::mod_mail
+
+:data 
+user_mail_index = {
+    folder_id = 1,
+    from_digest = "from_digest",
+    to_digest = "to_digest",
+    ...
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+mail_id = 1,
+
+// }}}
+// {{{ user_mail_index::del_mail
+
+:method
+user_mail_index::del_mail
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+// 删除一条记录
+mail_id = 1,
+// 删除多条记录，
+mail_id = "1,2,3,4",
+
+// }}}
+// {{{ user_mail_index::get_mail
+
+:method
+user_mail_index::get_mail
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,...",
+
+// }}}
+
+// {{{ user_notice_index::add_notice
+
+:method
+user_notice_index::add_notice
+
+:data
+user_key = {
+    acct_name = "test",    
+}
+domain_key = {
+    domdin_name = "test.com",    
+}
+user_notice_index = {
+    file_id = "32.43.5",
+    size = 1024,
+    send_type = 1,
+    ...
+}
+
+// }}}
+// {{{ user_notice_index::mod_user_notice
+
+:method
+user_notice_index::mod_user_notice
+
+:data
+user_notice_state = {
+    is_read = 1,
+    is_popped = 1,
+}
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+notice_id = 12,
+
+// }}}
+// {{{ user_notice_index::del_user_notice
+
+:method
+user_notice_index::del_user_notice
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+notice_id = 12,
+
+// }}}
+// {{{ user_notice_index::get_user_notice
+
+:method
+user_notice_index::get_user_notice
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+notice_id = "id_1,id_2,...",
+
+// 可以不设置，默认获取用户的全部通知
+// 也可以设置一个或者多个 id，获取指定的ID 的通知，
+// 暂时不支持 columns 属性
+
+// }}}
+
+// {{{ user_contacts::add_contacts
+
+:method
+user_contacts::add_contacts
+
+:data
+user_key = {
+    acct_name = "test",    
+}
+domain_key = {
+    domain_name = "test.com",    
+}
+user_contacts_key = {
+    contacts_name = "test",    
+}
+user_contacts_extend = {
+    element_key = "key",
+    element_value = "value",
+}
+
+// 此项可以有也可以没有
+user_contacts_assoc = {
+    contacts_group_id = 1232,    
+} 
+
+// }}}
+// {{{ user_contacts::mod_contacts
+
+:method
+user_contacts::mod_contacts
+
+:data
+user_contacts_key = {
+    contacts_name = "test",
+}
+user_contacts_extend = {
+    element_key = "key",
+    element_value = "value",
+}
+// 此项可以有也可以没有
+user_contacts_assoc = {
+    contacts_group_id = 1232,    
+} 
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+contacts_id = 345,
+
+// }}}
+// {{{ user_contacts::del_contacts
+
+:method
+user_contacts::del_contacts
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+contacts_id = 345,
+
+// }}}
+// {{{ user_contacts::get_contacts_list
+
+:method
+user_contacts::get_contacts_list
+
+:cond
+acct_name = "test",
+domain_name = "test.com",
+columns = "columns_1,columns_2,...",
+
+// }}}
