@@ -1,0 +1,59 @@
+*process.txt* eYouMail v5进程介绍 
+
+进程启动：eyou_mail start
+进程停止：eyou_mail stop
+进程查看：eyou_mail watch
+
+Watching all processes ...
+
+Result:
+------------------------------
+mysql             [OK]  19177-19324  mysqld_safe---mysqld---13*[{mysqld}]
+httpd_web         [OK]  19544  httpd-+-2*[cronolog]
+                                     `-5*[httpd]
+httpd_search      [OK]  19526  httpd-+-2*[cronolog]
+                                     `-5*[httpd]
+memcache_session  [OK]  19348  memcached---5*[{memcached}]
+memcache_config   [OK]  19355  memcached---5*[{memcached}]
+memcache_db       [OK]  19375  memcachedb---6*[{memcachedb}]
+memcache_fastdb   [OK]  19385  memcachedb---6*[{memcachedb}]
+gearman           [OK]  19395  gearmand
+red5              [OK]  19480  java---8*[{java}]
+mcron             [OK]  19660  mcron
+innerapi          [OK]  19420  em_innerapi---14*[em_innerapi]
+phpd              [OK]  19444  em_phpd---19*[em_phpd]
+syslog            [OK]  19410  em_syslogd
+filed             [OK]  19488  em_filed---4*[em_filed---{em_filed}]
+filedagent        [OK]  19503  em_filedagent---2*[em_filedagent---{em_filedagent}]
+bounce            [OK]  19559  em_bounce---2*[em_bounce]
+local             [OK]  19569  em_local---17*[em_local]
+remote            [OK]  19595  em_remote---9*[em_remote]
+mlist             [OK]  19603  em_mlist---3*[em_mlist]
+smtp              [OK]  19623  em_smtpd---16*[em_smtpd]
+pop3              [OK]  19647  em_pop3d---16*[em_pop3d]
+------------------------------
+
+mysql               数据库
+httpd_web           web服务，包括用户端、管理端、api
+httpd_search        全文检索
+memcache_session    php session
+memcache_config     系统配置缓存、成员key信息，domain_key, group_key, user_key
+memcache_db         数据缓存
+memcache_fastdb     不可删除的数据缓存
+gearman             任务分发进程
+red5                语音视频邮件服务
+mcron               定时任务
+innerapi            |em_innerapi|
+phpd                |em_phpd|
+syslog              日志服务，绝大部分的记录日志都依赖此服务
+filed               filed服务器
+filedagent          filed代理
+bounce              退信
+local               本地邮件投递
+remote              远程邮件投递
+mlist               邮件列表、组
+smtp                smtp服务
+pop3                pop3服务
+
+------------------------------------------------------------------------------
+ vim:tw=78:ts=8:ft=help:norl:
