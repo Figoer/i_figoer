@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8" /> 
+<title>js获取dom元素宽高等属性，不同浏览器差异性测试</title> 
+</head>
+<body>
+<div id="test" style="width:500px;height:300px;border:2px solid #000;overflow:auto;">
+当前CSS：<br />
+width:500px;<br />
+height:300px;<br />
+border:2px solid #000;<br />
+overflow:auto;<br />
+------------------------------------------------------
+<br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+----------------------
+</div>
+<div>
+各项属性值：
+<p id="_sh"></p>
+<p id="_sw"></p>
+<p id="_oh"></p>
+<p id="_ow"></p>
+</div>
+</body>
+<script>
+var _sh = document.getElementById("test").scrollHeight;
+var _sw = document.getElementById("test").scrollWidth;
+var _oh = document.getElementById("test").offsetHeight;
+var _ow = document.getElementById("test").offsetWidth;
+
+document.getElementById("_sh").innerHTML = "scrollHeight:" + _sh;
+document.getElementById("_sw").innerHTML = "scrollWidth:" + _sw;
+document.getElementById("_oh").innerHTML = "offsetHeight:" + _oh;
+document.getElementById("_ow").innerHTML = "offsetWidth:" + _ow;
+</script>
+</html>

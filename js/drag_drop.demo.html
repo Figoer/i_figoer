@@ -1,0 +1,233 @@
+<html>
+<head>
+<title>文件拖拽</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<style>
+table {
+    border:solid 1px #aaa;
+    border-collapse:collapse;
+}
+td {
+    padding:5px;   
+    border:solid 1px #aaa;
+}
+.small {
+    margin:5px;
+    display:block;
+    width:40px;
+    height:30px;
+    color:#fff;
+    line-height:30px;
+    text-align:center;
+}
+.middle {
+    margin:5px;
+    display:block;
+    width:80px;
+    height:60px;
+    color:#fff;
+    line-height:60px;
+    text-align:center;
+}
+.big {
+    margin:5px 30px;
+    display:block;
+    width:120px;
+    height:90px;
+    color:#fff;
+    line-height:90px;
+    text-align:center;
+}
+
+.red {
+    background:#f88;
+    border:solid 1px #f00;
+}
+.green {
+    background:#8f8;
+    border:solid 1px #0f0;
+    color:#f90;
+}
+.blue {
+    background:#88f;
+    border:solid 1px #00f;
+}
+.cont {
+    clear:both;
+}
+.cont  div {
+    float:left;
+}
+</style>
+<script type="text/javascript">
+</script>
+</head>
+<body background="#eeeeee">
+<p>html5中拖拽增加的新事件</p>
+<table>
+<tr> <td>事件名</td><td>说明</td><td>作用对象</td> </tr>
+<tr> <td> dragstart </td><td> 当拖拽元素开始被拖拽的时候触发的事件 </td><td> 被拖曳元素 </td> </tr>
+<tr> <td> dragenter </td><td> 当拖曳元素进入目标元素的时候触发的事件 </td><td> 目标元素 </td> </tr>
+<tr> <td> dragover </td><td> 拖拽元素在目标元素上移动的时候触发的事件 </td> <td> 目标元素 </td> </tr>
+<tr> <td> dragleave </td><td> 拖拽元素从目标元素上移动离开以后触发的事件 </td><td> 目标元素 </td> </tr>
+<tr> <td> drop </td><td> 被拖拽的元素在目标元素上同时鼠标放开触发的事件 </td><td> 目标元素 </td> </tr>
+<tr> <td> dragend </td><td> 当拖拽完成后触发的事件 </td><td> 被拖曳元素 </td> </tr>
+</table>
+
+<div class="cont">
+<div class="big red" id="box1" draggable=true>拽我</div>
+<div class="big green" id="box2"></div>
+<div class="big blue" id="box3"></div>
+</div>
+<div style="clear:both"></div>
+<script type="text/javascript">
+var box1 = document.getElementById('box1');
+var box2 = document.getElementById('box2');
+var box3 = document.getElementById('box3');
+box1.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', 'data1'); 
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setDragImage(e.target, 0, 0);
+    console.log('box1 dragstart event');
+})
+
+box1.addEventListener('dragend', function(e) {
+    box2.innerHTML = '';
+    box3.innerHTML = '';
+    box5.innerHTML = 'dom放这';
+    box6.innerHTML = '文件放这';
+    console.log('box1 dragend event');
+})
+
+box2.addEventListener('dragenter', function(e) {
+    e.target.innerHTML = '进入box2';
+    console.log('box2 dragenter event');
+})
+
+box2.addEventListener('dragleave', function(e) {
+    e.target.innerHTML = '离开box2';
+    console.log('box2 dragleave event');
+})
+
+box2.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.target.innerHTML = '在box2上';
+    console.log('box2 dragover event');
+})
+
+box3.addEventListener('dragenter', function(e) {
+    e.target.innerHTML = '进入box3';
+    console.log('box3 dragenter event');
+})
+
+box3.addEventListener('dragleave', function(e) {
+    e.target.innerHTML = '离开box3';
+    console.log('box3 dragleave event');
+})
+
+box3.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.target.innerHTML = '在box3上';
+    console.log('box3 dragover event');
+})
+</script>
+
+<p>重要的属性</p>
+<table>
+<tr> <td>属性名</td><td>说明</td><td>拥有者</td> </tr>
+<tr> <td> dataTransfer </td><td> 拖拽对象用来传递的媒介，使用一般为Event.dataTransfer </td><td> Event对象 </td> </tr>
+<tr> <td> draggable </td><td> 控制元素释放可以被拖拽的属性 </td><td> 被拖曳元素 </td> </tr>
+<tr> <td> effectAllowed </td><td> 控制拖拽是鼠标效果 </td><td> Event对象 </td> </tr>
+</table>
+
+<div class="cont">
+<div class="big red" id="box4" draggable=true>拽我</div>
+<div class="big green" id="box5">dom放这</div>
+<div class="big blue" id="box6">文件放这</div>
+</div>
+<div style="clear:both"></div>
+<script type="text/javascript">
+var box4 = document.getElementById('box4');
+var box5 = document.getElementById('box5');
+var box6 = document.getElementById('box6');
+box4.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', 'data4'); 
+    e.dataTransfer.effectAllowed = 'move';
+})
+
+box4.addEventListener('dragend', function(e) {
+    box2.innerHTML = '';
+    box3.innerHTML = '';
+    box5.innerHTML = 'dom放这';
+    box6.innerHTML = '文件放这';
+})
+
+box5.addEventListener('dragenter', function(e) {
+    e.dataTransfer.effectAllowed = 'move';
+})
+
+box5.addEventListener('dragleave', function(e) {
+    box5.style.outline = 'none';
+})
+
+box5.addEventListener('dragover', function(e) {
+    e.target.style.outline = 'dashed 2px #f90';
+    e.preventDefault();
+})
+
+box5.addEventListener('drop', function(e) {
+    var data = e.dataTransfer.getData('text/plain');
+    alert("放了dom元素，传递的数据为:" + data);
+    box5.style.outline = 'none';
+    e.preventDefault();
+    //e.stopPropagation();
+})
+
+function isFile(e) {
+    if (e.dataTransfer && e.dataTransfer.types) {
+        for (var i=0; i<e.dataTransfer.types.length; i++) {
+            if (e.dataTransfer.types[i] === 'Files') {
+                return true;
+            }
+        }
+    }
+
+    return false;
+} 
+
+box6.addEventListener('dragleave', function(e) {
+    if (isFile(e)) {
+        box6.style.outline = 'none';
+    }
+})
+
+box6.addEventListener('dragover', function(e) {
+    if (isFile(e)) {
+        box6.style.outline = 'dashed 2px #f90';
+    }
+    e.preventDefault();
+})
+
+box6.addEventListener('drop', function(e) {
+    if (isFile(e)) {
+        var files = e.dataTransfer.files;
+        var info;
+        var all = [];
+        for (var i=0; i<files.length; i++) {
+            info = [];
+            info.push('文件名:' + files[i].name);
+            info.push('   大小:' + files[i].name);
+            info.push('   类型:' + files[i].type);
+            all.push((i + 1) + ". " + info.join("\n"));
+        }
+
+        alert("共拖拽" + all.length + "文件\n" + all.join("\n"));
+        box6.style.outline = 'none';
+        e.preventDefault();
+    }
+})
+</script>
+
+
+</body>
+</html>
