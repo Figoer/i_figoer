@@ -1,6 +1,6 @@
 <?php
-$msg = "测试短信[来自亿邮]";
-$phone = "18610164195";
+$msg = "尊敬的用户，您好，欢迎使用亿邮运维平台【来自亿邮】";
+$phone = "13911611195";
 $cdkey = md5("10001123456" . $msg);
 $post = array(
         'code' => '10001',
@@ -23,7 +23,7 @@ $body = $response->getBody();
 echo "\r\nCode>>>>>>:" . $code . "\r\n";
 echo "\r\nBody>>>>>>:\r\n";
 var_dump($body);
-
+/*
 echo "\r\n-------获取短信------------------------------------------------------------\r\n";
 $time = time();
 $cdkey = md5("10001123456" . $time);
@@ -46,6 +46,6 @@ $body = $response->getBody();
 echo "\r\nCode>>>>>>:" . $code . "\r\n";
 echo "\r\nBody>>>>>>:\r\n";
 var_dump($body);
-
+*/
 
 
